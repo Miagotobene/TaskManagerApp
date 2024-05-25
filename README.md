@@ -1,4 +1,4 @@
-# TimerApp
+# TaskManagerApp
 Project 2: Task Manager </BR> 
 ## <br /> <ins> __User Stories__ </ins>
 </br> Users could:
