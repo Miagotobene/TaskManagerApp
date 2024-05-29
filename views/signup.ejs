@@ -5,7 +5,19 @@
     <div class="container">
       <form id="form-group1">
         <div class="form-group">
-          <h2 class="text-center">Login</h2>
+          <h2 class="text-center">Sign Up</h2>
+          <label for="exampleInputEmail1" class="form-label mt-4"></label>
+           Username</label
+          >
+          <input
+            type="email"
+            class="form-control"
+            id="exampleInputEmail1"
+            aria-describedby="emailHelp"
+          />
+          <small id="emailHelp" class="form-text text-muted"></small>
+        </div>
+        <div class="form-group">
           <label for="exampleInputEmail1" class="form-label mt-4"></label>
            Email address</label
           >
@@ -17,6 +29,7 @@
           />
           <small id="emailHelp" class="form-text text-muted"></small>
         </div>
+
         <div class="form-group">
           <label for="exampleInputPassword1">Password</label>
           <input
@@ -35,11 +48,10 @@
           <label class="form-check-label" for="flexCheckDefault">
             Remember me
           </label>
-          <a href="#">Forgot password? </a>
         </div>
         <button type="submit" class="btn btn-primary">Log In</button>
         <div class="register-link">
-          <p>Don't have an account? <a href="/signup">Sign Up</a></p>
+          <p>Already have an account? <a href="/login">Sign In</a></p>
         </div>
       </form>
     </div>

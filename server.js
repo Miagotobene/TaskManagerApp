@@ -28,13 +28,17 @@ app.get('/contact', (req, res) => {
 
 })
 
-// set up the sign up page route and serve signup.html
+// set up the login page route and serve signup.html
 app.get('/login', (req, res) => {
     res.render('login');
 
 })
 
+// set up the sign up page route and serve signup.html
+app.get('/signup', (req, res) => {
+    res.render('signup');
 
+})
 
 // Server
 app.listen(port, () => {
