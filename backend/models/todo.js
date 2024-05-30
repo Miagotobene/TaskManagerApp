@@ -1,9 +1,17 @@
-const moongoose = require('mongoose');
-const Schema = mongoose.Schema;
-const todoSchema = new Schema({
-    title: String,
-    content: String
-});
+const mongoose = require('mongoose');
 
-const taskPost = mongoose.model('Post', todoSchema);
-module.exports = taskPost
+// create the schema
+const todoSchema = new mongoose.Schema({
+    username: String,
+    email: { type: String, required: true, unique:true},
+    title: String,
+    body: String,
+    status: String,
+    pomodoroComplete: Number
+}, {timestamps: true})
+
+// name and create the model 
+const todoApp = mongoose.model('todoApp', todoSchema);
+
+// make this model available 
+module.exports = todoApp;
