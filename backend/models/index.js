@@ -18,7 +18,7 @@ db.on('error', (error) => {
 
 
 // export models here 
-module.exports = {
-    // placing the models inside of this export
-    todo,
-}
+module.exports = todo
+
+
+

@@ -1,7 +1,6 @@
 // Import modules
 const express = require('express');
 const app = express();
-const path = require('path');
 const ejs = require('ejs');
 const mongoose = require('mongoose');
 const tasks = require('./routes/tasks');
@@ -9,19 +8,23 @@ require('dotenv').config();
 const port = 3000;
 
 // import data 
-const { todoApp } = require('./models/todo');
-app.use(express.urlencoded({extended: false}))
-
-// test model 
-require('./models/testDatabase');
-
-
+// const { todoApp } = require('./models/todo');
+require('./models/index'); // changed from index to todo
 // serve static files
 app.use(express.static('public'));
 app.use(express.json()); // install middleware
-
+app.use(express.urlencoded({extended: false}))
 // use templating engines
 app.set('view engine', 'ejs')
+app.use('/api/v1/tasks', tasks);
+
+// test model 
+// require('./models/testDatabase');
+
+
+
+
+
 
 // set up the homepage route and serve index.ejs
 app.get('/', (req, res) => {
@@ -53,23 +56,19 @@ app.get('/signup', (req, res) => {
 })
 
 // set up the todo list page route and serve todo.ejs
-app.use('/api/v1/tasks', tasks);
+
+app.get('/todo', (req, res) => {
+    res.render('todo');
+
+})
+
 
 // app.get('/api/v1/tasks')  -- get all the tasks
 // app.get('/api/v1/tasks')  -- create a new task
 // app.get('/api/v1/tasks/:id')  -- update task
 // app.get('/api/v1/tasks/:id')  -- delete task
 
-const start = async () => {
-    try {
-        await process.env.MONGO_URI
-        app.listen(port, console.log(`App's listening on port: ${port}`))
-    } catch (error) {
-        console.log(error)
-    }
-}
 
-start()
 
 // set up the timer page route and serve timer.ejs
 app.get('/timer', (req, res) => {
@@ -77,8 +76,21 @@ app.get('/timer', (req, res) => {
 
 })
 
-// Server
-// app.listen(port, () => {
-//     console.log(`App's running on PORT: ${port}`)
+
+
+// const start = async () => {
+//     try {
+//         await  process.env.MONGO_URI;
+//         // app.listen(port, console.log(`App's listening on port: ${port}`))
+//     } catch (error) {
+//         console.log(error)
+//     }
 // }
-// )
+
+// start()
+
+// Server
+app.listen(port, () => {
+    console.log(`App's running on PORT: ${port}`)
+}
+)
