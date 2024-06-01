@@ -1,6 +1,16 @@
-// CREATE
+// connection to mongoose
+const mongoose = require('mongoose')
+const todoApp = require('../models/todo');
+mongoose.connect('mongodb://localhost/pomodoroApp');
 
-model.create({ name: 'something', status: 'in progress', pomodoroComplete: 5  })
+
+// CREATE
+todoApp.create({ 
+   name: 'something', 
+   completed: true,
+   body: 'Work on your application',
+   status: 'in progress', 
+   pomodoroComplete: 5  })
 .then(newModel => {
    console.log('---- NEW MODEL -----', newModel);
 })

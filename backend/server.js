@@ -5,13 +5,15 @@ const path = require('path');
 const ejs = require('ejs');
 const mongoose = require('mongoose');
 const tasks = require('./routes/tasks');
+require('dotenv').config();
 const port = 3000;
 
 // import data 
-const { todoApp } = require('./models');
+const { todoApp } = require('./models/todo');
+app.use(express.urlencoded({extended: false}))
 
 // test model 
-// todoApp.find({}).then(todo => console.log('TodoApp\n', todo)).catch(error => console.log('Error\n', error));
+require('./models/testDatabase');
 
 
 // serve static files
@@ -53,13 +55,21 @@ app.get('/signup', (req, res) => {
 // set up the todo list page route and serve todo.ejs
 app.use('/api/v1/tasks', tasks);
 
-
 // app.get('/api/v1/tasks')  -- get all the tasks
 // app.get('/api/v1/tasks')  -- create a new task
 // app.get('/api/v1/tasks/:id')  -- update task
 // app.get('/api/v1/tasks/:id')  -- delete task
 
+const start = async () => {
+    try {
+        await process.env.MONGO_URI
+        app.listen(port, console.log(`App's listening on port: ${port}`))
+    } catch (error) {
+        console.log(error)
+    }
+}
 
+start()
 
 // set up the timer page route and serve timer.ejs
 app.get('/timer', (req, res) => {
@@ -68,7 +78,7 @@ app.get('/timer', (req, res) => {
 })
 
 // Server
-app.listen(port, () => {
-    console.log(`App's running on PORT: ${port}`)
-}
-)
+// app.listen(port, () => {
+//     console.log(`App's running on PORT: ${port}`)
+// }
+// )
