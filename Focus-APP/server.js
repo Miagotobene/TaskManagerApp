@@ -73,11 +73,11 @@ app.get('/auth/login', (req, res) => {
 
 })
 
-// set up the login page route and serve login.ejs
-app.get('/profile', (req, res) => {
-    res.render('profile', {});
-
-})
+// go to user profile: Authenticate route
+app.get('/profile', isLoggedIn, (req, res) => {
+    const { name, email, username } = req.user;
+    res.render('profile', { name, email, username });
+});
 
 // set up the todo list page route and serve todo.ejs
 
