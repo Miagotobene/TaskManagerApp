@@ -12,9 +12,9 @@ const port = process.env.port || 3000;
 const SECRET_SESSION = process.env.SECRET_SESSION;
 
 
-// import data 
-// const todoFiles = require('./models/index'); //
-// require('./models/index'); //
+// import model
+const { User } = require('./models')
+
 
 // serve static files
 app.set('view engine', 'ejs') // use templating engines
@@ -39,6 +39,8 @@ app.use((req,res,next) =>{
     res.locals.currentUser = req.user;
     next(); // goes to the route
 })
+
+// ****************** GET Routes ************************* //
 
 // set up the homepage route and serve index.ejs
 app.get('/', (req,res) => {
@@ -86,7 +88,46 @@ app.get('/timer', (req, res) => {
 
 })
 
+// ****************** POST Routes ************************* //
 
+
+// get data from req.body and create user + error handling
+app.post('/auth/signup', async (req, res) => {
+    // res.send(req.body)
+    // search for the user's email in the database
+    try {
+        const findUser = await User.findOne( { email: req.body.email })
+
+        // create a user if there isn't one 
+        if (!findUser ){
+            const newUser = await User.create({
+                name: req.body.name,
+                email: req.body.email,
+                username: req.body.username,
+                password: req.body.password
+            });
+
+            // authenticate the user via passport
+            passport.authenticate('local', {
+                successRedirect: '/',
+                successFlash: `Welcome ${newUser.name}! Account's created.`
+            })(req, res);
+        } else {
+            req.flash('error', 'Email already exist. Try logging in!');
+            res.redirect('/auth/login');
+        }
+    } catch (error) {
+        console.log('---------- ERROR IN SIGNUP POST -------------', error);
+        res.send(error)
+        
+    }
+
+})
+
+app.post('/auth/login', (req, res) => {
+    res.send(req.body)
+
+})
 
 // Server
 app.listen(port, () => {

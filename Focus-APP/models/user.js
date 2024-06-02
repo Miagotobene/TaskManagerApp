@@ -5,6 +5,11 @@ const userSchema = new mongoose.Schema({
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
+    username: { type: String, 
+        required: [true, 'must provide name'],
+        trim: true,
+        maxlength: [20, 'username cannot be more than 20 characters'],
+     },
     // phone: {
     //     type: String,
     //     validate: {

@@ -7,7 +7,7 @@ const { User } = require('../models');
 User.create({
     name: 'Kevin Jones',
     email: 'kevinjones@email.com',
-    // phone: '888-444-1010',
+    usernam: 'KevJones',
     password: 'poiuytrewq'
 })
 .then(user => {
