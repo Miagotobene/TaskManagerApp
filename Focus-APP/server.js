@@ -12,7 +12,6 @@ const port = process.env.port || 3000;
 const SECRET_SESSION = process.env.SECRET_SESSION;
 
 
-
 // import data 
 // const todoFiles = require('./models/index'); //
 // require('./models/index'); //
@@ -33,8 +32,8 @@ app.use(session({
 app.use(flash());
 
 // initialize passport 
-// app.use(passport.initialize());
-// app.use(passport.session())
+app.use(passport.initialize());
+app.use(passport.session())
 
 // middleware for tracking users and alertts
 app.use((req,res,next) =>{
