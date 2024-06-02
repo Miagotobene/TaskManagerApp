@@ -16,8 +16,6 @@ const SECRET_SESSION = process.env.SECRET_SESSION;
 // const todoFiles = require('./models/index'); //
 // require('./models/index'); //
 
-
-
 // serve static files
 app.set('view engine', 'ejs') // use templating engines
 app.use(express.static(__dirname + '/public'));
@@ -61,15 +59,16 @@ app.get('/contact', (req, res) => {
 
 })
 
-// set up the login page route and serve login.ejs
-app.get('/login', (req, res) => {
-    res.render('login');
+
+// set up the sign up page route and serve signup.ejs
+app.get('/auth/signup', (req, res) => {
+    res.render('auth/signup', {});
 
 })
 
-// set up the sign up page route and serve signup.ejs
-app.get('/signup', (req, res) => {
-    res.render('signup');
+// set up the login page route and serve login.ejs
+app.get('/auth/login', (req, res) => {
+    res.render('auth/login', {});
 
 })
 
