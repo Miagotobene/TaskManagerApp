@@ -49,17 +49,16 @@ app.get('/', (req,res) => {
 // test the testDatabase model 
 // require('./models/testDatabase');
 
+// set up the homepage route after user has logged in
+app.get('/homepage', (req,res) => {
+    res.render('index-loggedin')
+})
 
 // set up the about page route and serve about.ejs
 app.get('/about', (req, res) => {
     res.render('about');
 })
 
-// set up the contact page route and serve overview.ejs
-app.get('/contact', (req, res) => {
-    res.render('contact');
-
-})
 
 
 // set up the sign up page route and serve signup.ejs
@@ -71,6 +70,12 @@ app.get('/auth/signup', (req, res) => {
 // set up the login page route and serve login.ejs
 app.get('/auth/login', (req, res) => {
     res.render('auth/login', {});
+
+})
+
+// set up the login page route and serve login.ejs
+app.get('/profile', (req, res) => {
+    res.render('profile', {});
 
 })
 
@@ -88,8 +93,21 @@ app.get('/timer', (req, res) => {
 
 })
 
-// ****************** POST Routes ************************* //
+// log the user out of the app
+app.get('/auth/logout', (req,res) => {
+    res.locals.currentUser = null;
+    req.logOut((error, next) => {
+        if (error){
+            req.flash('error', 'Error logging out. Please try again.');
+            return next(error);
+        }
+        req.flash('success', 'Logging out...See you next time!');
+        res.redirect('/');
+    });
 
+});
+
+// ****************** POST Routes ************************* //
 
 // get data from req.body and create user + error handling
 app.post('/auth/signup', async (req, res) => {
@@ -106,10 +124,10 @@ app.post('/auth/signup', async (req, res) => {
                 username: req.body.username,
                 password: req.body.password
             });
-
+            // req.flash('sucess', `Welcome ${newUser.name}! Account's created.`)
             // authenticate the user via passport
             passport.authenticate('local', {
-                successRedirect: '/',
+                successRedirect: '/homepage',
                 successFlash: `Welcome ${newUser.name}! Account's created.`
             })(req, res);
         } else {
@@ -124,8 +142,15 @@ app.post('/auth/signup', async (req, res) => {
 
 })
 
-app.post('/auth/login', (req, res) => {
-    res.send(req.body)
+// authenticate the user 
+app.post('/auth/login', passport.authenticate('local', {
+    successRedirect: '/homepage',
+    failureRedirect: '/auth/login',
+    successFlash: 'Welcome back to your account!',
+    failureFlash: 'Either email or password is incorrect. Please try again.'
+}), (req, res) => {
+    // res.send(req.body)
+
 
 })
 
